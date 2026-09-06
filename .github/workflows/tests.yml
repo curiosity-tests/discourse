@@ -50,7 +50,7 @@ jobs:
     name: ${{ (matrix.target == 'core-plugins' && 'plugins (core)') || (matrix.target == 'official-plugins' && 'plugins (official)') || (matrix.target == 'chat' && 'plugins (chat)') || matrix.target }} ${{ matrix.build_type }}
     runs-on: >-
       ${{
-        github.repository_owner == 'curiosity-tests' && (
+        github.repository_owner == 'discourse' && (
           matrix.build_type == 'system' && (matrix.target == 'core' || matrix.target == 'core-plugins' || matrix.target == 'official-plugins')
           && 'cdck-linux-16-core'
           || 'cdck-linux-8-core'
@@ -392,7 +392,7 @@ jobs:
 
       - name: Check for flaky tests report
         id: check-flaky-spec-report
-        if: github.repository == 'curiosity-tests/discourse' && github.ref_name == 'main' && env.DISCOURSE_TURBO_RSPEC_RETRY_AND_LOG_FLAKY_TESTS == '1'
+        if: github.repository == 'discourse/discourse' && github.ref_name == 'main' && env.DISCOURSE_TURBO_RSPEC_RETRY_AND_LOG_FLAKY_TESTS == '1'
         run: |
           if [ -f tmp/turbo_rspec_flaky_tests.json ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
@@ -412,7 +412,7 @@ jobs:
           path: tmp/turbo_rspec_flaky_tests-${{ matrix.build_type }}-${{ matrix.target }}-${{ job.check_run_id }}.json
 
   merge:
-    if: github.repository == 'curiosity-tests/discourse' && github.ref == 'refs/heads/main'
+    if: github.repository == 'discourse/discourse' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
     steps:
